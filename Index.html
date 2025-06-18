@@ -1,0 +1,68 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Find your weekly sleep debt and plan recovery. Get insights into how much sleep you're missing and how to fix it.">
+  <title>Sleep Debt Calculator</title>
+  <style>
+    body { font-family: sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
+    .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    h1 { text-align: center; color: #333; }
+    label { display: block; margin-top: 10px; font-weight: bold; }
+    input[type=number] { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; }
+    button { margin-top: 20px; width: 100%; padding: 12px; background: #007bff; color: white; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; }
+    button:hover { background: #0056b3; }
+    .results { margin-top: 20px; padding: 10px; background: #e6f7ff; border-left: 5px solid #1890ff; border-radius: 6px; }
+    .fatigue { font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Sleep Debt Calculator</h1>
+    <label for="ideal">Ideal Sleep (hrs/night)</label>
+    <input type="number" id="ideal" value="8" min="1" max="12"><div id="days"></div>
+
+<button onclick="calculateDebt()">Calculate Sleep Debt</button>
+
+<div class="results" id="results" style="display:none">
+  <p>Total Sleep Debt: <span id="debt"></span> hours</p>
+  <p>Recommended Recovery Sleep: <span id="recovery"></span> hours</p>
+  <p class="fatigue">Fatigue Risk Level: <span id="fatigue"></span></p>
+</div>
+
+  </div>  <script>
+    const daysOfWeek = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+    const daysDiv = document.getElementById('days');
+
+    daysOfWeek.forEach(day => {
+      const label = document.createElement('label');
+      label.innerText = `${day} Sleep (hrs)`;
+      const input = document.createElement('input');
+      input.type = 'number';
+      input.min = '0';
+      input.max = '24';
+      input.value = '7';
+      input.id = day.toLowerCase();
+      daysDiv.appendChild(label);
+      daysDiv.appendChild(input);
+    });
+
+    function calculateDebt() {
+      const ideal = parseFloat(document.getElementById('ideal').value);
+      let totalDebt = 0;
+      daysOfWeek.forEach(day => {
+        const hours = parseFloat(document.getElementById(day.toLowerCase()).value);
+        const dailyDebt = Math.max(0, ideal - hours);
+        totalDebt += dailyDebt;
+      });
+
+      const recovery = totalDebt * 1.25; // 25% more sleep needed to recover fully
+      const fatigueLevel = totalDebt <= 5 ? 'Low' : totalDebt <= 10 ? 'Moderate' : 'High';
+
+      document.getElementById('debt').innerText = totalDebt.toFixed(1);
+      document.getElementById('recovery').innerText = recovery.toFixed(1);
+      document.getElementById('fatigue').innerText = fatigueLevel;
+      document.getElementById('results').style.display = 'block';
+    }
+  </script></body>
+</html>
