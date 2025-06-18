@@ -1,68 +1,246 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Find your weekly sleep debt and plan recovery. Get insights into how much sleep you're missing and how to fix it.">
-  <title>Sleep Debt Calculator</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Find your weekly sleep debt and plan recovery. Understand your sleep deficit and how to fix it with our simple Sleep Debt Calculator." />
+  <title>Sleep Debt and Recovery Calculator</title>
   <style>
-    body { font-family: sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
-    .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    h1 { text-align: center; color: #333; }
-    label { display: block; margin-top: 10px; font-weight: bold; }
-    input[type=number] { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; }
-    button { margin-top: 20px; width: 100%; padding: 12px; background: #007bff; color: white; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; }
-    button:hover { background: #0056b3; }
-    .results { margin-top: 20px; padding: 10px; background: #e6f7ff; border-left: 5px solid #1890ff; border-radius: 6px; }
-    .fatigue { font-weight: bold; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 20px; background: #f5f5f5; color: #222;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h1, h2 {
+      text-align: center;
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input[type=number] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .results {
+      margin-top: 20px;
+      padding: 15px;
+      background: #e6f7ff;
+      border-left: 5px solid #1890ff;
+      border-radius: 6px;
+      font-size: 18px;
+    }
+    .fatigue {
+      font-weight: bold;
+      font-size: 20px;
+      margin-top: 10px;
+    }
+    .tips, .seo-text, .faq {
+      margin-top: 30px;
+      background: #fafafa;
+      border-radius: 8px;
+      padding: 15px;
+      font-size: 16px;
+      line-height: 1.4;
+      border: 1px solid #ddd;
+    }
+    .share-buttons {
+      margin-top: 15px;
+      text-align: center;
+    }
+    .share-buttons button {
+      width: auto;
+      margin: 0 10px;
+      padding: 10px 20px;
+      font-size: 14px;
+    }
+    details {
+      margin-top: 10px;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 6px;
+      background: white;
+    }
+    summary {
+      font-weight: bold;
+      font-size: 16px;
+    }
+    @media (max-width: 480px) {
+      .container {
+        padding: 15px;
+      }
+      button {
+        font-size: 14px;
+        padding: 10px;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Sleep Debt Calculator</h1>
-    <label for="ideal">Ideal Sleep (hrs/night)</label>
-    <input type="number" id="ideal" value="8" min="1" max="12"><div id="days"></div>
+    <h1>Sleep Debt and Recovery Calculator</h1>
 
-<button onclick="calculateDebt()">Calculate Sleep Debt</button>
+    <label for="ideal">Ideal Sleep (hours/night)</label>
+    <input type="number" id="ideal" value="8" min="1" max="12" />
 
-<div class="results" id="results" style="display:none">
-  <p>Total Sleep Debt: <span id="debt"></span> hours</p>
-  <p>Recommended Recovery Sleep: <span id="recovery"></span> hours</p>
-  <p class="fatigue">Fatigue Risk Level: <span id="fatigue"></span></p>
-</div>
+    <div id="days"></div>
 
-  </div>  <script>
+    <button id="calcBtn">Calculate Sleep Debt</button>
+
+    <div class="results" id="results" style="display:none;">
+      <p>Total Sleep Debt: <span id="debt"></span> hours</p>
+      <p>Recommended Recovery Sleep: <span id="recovery"></span> hours</p>
+      <p class="fatigue">Fatigue Risk Level: <span id="fatigue"></span></p>
+
+      <div class="share-buttons">
+        <button id="shareTwitter" aria-label="Share on Twitter">🐦 Share on Twitter</button>
+        <button id="shareWhatsApp" aria-label="Share on WhatsApp">💬 Share on WhatsApp</button>
+      </div>
+    </div>
+
+    <div class="tips">
+      <h2>How to Use These Results</h2>
+      <p>
+        Your total sleep debt shows how many hours you missed compared to your ideal sleep this week.  
+        The recovery sleep suggests extra hours you should add over the next few days to feel rested.  
+        Try to avoid accumulating large sleep debts regularly to maintain focus, mood, and health.
+      </p>
+    </div>
+
+    <div class="seo-text">
+      <h2>Why Sleep Debt Matters</h2>
+      <p>
+        Sleep debt accumulates when you sleep less than your body needs. Chronic sleep debt can impair memory, immune function, and increase the risk of many diseases. Catching up on sleep by sleeping extra on some days can help, but consistent good sleep habits are best.
+      </p>
+    </div>
+
+    <div class="faq">
+      <h2>FAQ</h2>
+
+      <details>
+        <summary>What is sleep debt?</summary>
+        <p>Sleep debt is the difference between the amount of sleep your body needs and the actual sleep you get.</p>
+      </details>
+
+      <details>
+        <summary>Can I catch up on sleep during weekends?</summary>
+        <p>Yes, catching up helps reduce sleep debt, but regular consistent sleep is healthier.</p>
+      </details>
+
+      <details>
+        <summary>What happens if I ignore sleep debt?</summary>
+        <p>Ignoring sleep debt can cause poor concentration, mood issues, and long-term health risks.</p>
+      </details>
+
+    </div>
+  </div>
+
+  <script>
     const daysOfWeek = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
     const daysDiv = document.getElementById('days');
 
+    // Create inputs for each day dynamically
     daysOfWeek.forEach(day => {
       const label = document.createElement('label');
-      label.innerText = `${day} Sleep (hrs)`;
+      label.innerText = `${day} Sleep (hours)`;
+      label.setAttribute('for', day.toLowerCase());
+
       const input = document.createElement('input');
       input.type = 'number';
       input.min = '0';
       input.max = '24';
       input.value = '7';
       input.id = day.toLowerCase();
+
       daysDiv.appendChild(label);
       daysDiv.appendChild(input);
     });
 
+    const calcBtn = document.getElementById('calcBtn');
+    calcBtn.addEventListener('click', calculateDebt);
+
     function calculateDebt() {
       const ideal = parseFloat(document.getElementById('ideal').value);
+      if (isNaN(ideal) || ideal < 1 || ideal > 12) {
+        alert('Please enter a valid ideal sleep between 1 and 12 hours.');
+        return;
+      }
+
       let totalDebt = 0;
       daysOfWeek.forEach(day => {
         const hours = parseFloat(document.getElementById(day.toLowerCase()).value);
+        if (isNaN(hours) || hours < 0 || hours > 24) {
+          alert(`Please enter valid hours (0-24) for ${day}`);
+          totalDebt = null;
+          return;
+        }
         const dailyDebt = Math.max(0, ideal - hours);
         totalDebt += dailyDebt;
       });
 
-      const recovery = totalDebt * 1.25; // 25% more sleep needed to recover fully
-      const fatigueLevel = totalDebt <= 5 ? 'Low' : totalDebt <= 10 ? 'Moderate' : 'High';
+      if (totalDebt === null) return;
+
+      const recovery = totalDebt * 1.25; // 25% extra to fully recover
+      let fatigueLevel = '';
+      if (totalDebt <= 5) fatigueLevel = 'Low';
+      else if (totalDebt <= 10) fatigueLevel = 'Moderate';
+      else fatigueLevel = 'High';
 
       document.getElementById('debt').innerText = totalDebt.toFixed(1);
       document.getElementById('recovery').innerText = recovery.toFixed(1);
       document.getElementById('fatigue').innerText = fatigueLevel;
       document.getElementById('results').style.display = 'block';
+
+      updateShareLinks(totalDebt, recovery, fatigueLevel);
     }
-  </script></body>
+
+    function updateShareLinks(debt, recovery, fatigue) {
+      const tweetText = encodeURIComponent(
+        `I just calculated my weekly sleep debt: ${debt.toFixed(1)} hours. ` +
+        `Recommended recovery sleep: ${recovery.toFixed(1)} hours. Fatigue risk: ${fatigue}. ` +
+        'Check your sleep debt and improve your health! https://sleepdebtrecoverycalculator.netlify.app'
+      );
+      const twitterUrl = `https://twitter.com/intent/tweet?text=${tweetText}`;
+
+      const whatsappText = encodeURIComponent(
+        `My weekly sleep debt is ${debt.toFixed(1)} hours. Recommended recovery: ${recovery.toFixed(1)} hours. Fatigue risk level: ${fatigue}.\n` +
+        'Try the Sleep Debt Calculator here: https://sleepdebtrecoverycalculator.netlify.app'
+      );
+      const whatsappUrl = `https://api.whatsapp.com/send?text=${whatsappText}`;
+
+      document.getElementById('shareTwitter').onclick = () => window.open(twitterUrl, '_blank');
+      document.getElementById('shareWhatsApp').onclick = () => window.open(whatsappUrl, '_blank');
+    }
+  </script>
+</body>
 </html>
