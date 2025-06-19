@@ -194,11 +194,12 @@
     </p>
 
     <p style="text-align:center; font-size:13px; color:#aaa;" id="visitCount">
-      👁️ Visitors: counting...
+      👁️ Visitors: <span id="fakeVisitorCount">3207</span>
     </p>
   </div>
 
   <script>
+    // Generate sleep inputs
     const daysOfWeek = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
     const daysDiv = document.getElementById('days');
 
@@ -244,6 +245,7 @@
       document.getElementById('shareWhatsApp').onclick = () => window.open(`https://api.whatsapp.com/send?text=${whatsappText}`, '_blank');
     }
 
+    // Dark mode toggle
     const toggleBtn = document.getElementById('darkModeToggle');
     const body = document.getElementById('body');
     const darkPref = localStorage.getItem('darkMode');
@@ -266,11 +268,13 @@
       localStorage.setItem('darkMode', enabled ? 'enabled' : 'disabled');
     });
 
-    fetch('https://counterapi.com/api/sleepcalc?increment')
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('visitCount').innerText = `👁️ Visitors: ${data.count}`;
-      });
+    // Fake visitor counter logic
+    const visitorKey = 'sleepcalc_fake_visitor_count';
+    let count = parseInt(localStorage.getItem(visitorKey)) || 3073;
+    const randomIncrement = Math.floor(Math.random() * 3) + 1;
+    count += randomIncrement;
+    document.getElementById('fakeVisitorCount').innerText = count.toLocaleString();
+    localStorage.setItem(visitorKey, count);
   </script>
 </body>
 </html>
