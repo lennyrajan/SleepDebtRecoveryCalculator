@@ -92,10 +92,10 @@
       color: inherit;
     }
     #darkModeToggle {
-      position: absolute;
+      position: fixed;
       top: 10px;
-      right: 20px;
-      font-size: 18px;
+      right: 10px;
+      font-size: 22px;
       background: transparent;
       border: none;
       cursor: pointer;
@@ -177,6 +177,7 @@ if (!darkPref || darkPref === 'enabled') {
   updateToggleIcon(true);
   localStorage.setItem('darkMode', 'enabled');
 } else {
+  body.classList.remove('dark');
   updateToggleIcon(false);
 }
 
