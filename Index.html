@@ -1,183 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="google-site-verification" content="AOiTGI_SnsG9S2IfTSFuHc4RVun0iFu8mgcWKqJVYqc" />
-  <meta name="description" content="Find your weekly sleep debt and plan recovery. Understand your sleep deficit and how to fix it with our simple Sleep Debt Calculator." />
-  <title>Sleep Debt Calculator</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0; padding: 20px;
-      background: #121212;
-      color: #f0f0f0;
-    }
-    .container {
-      max-width: 600px;
-      margin: auto;
-      background: #1e1e1e;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      position: relative;
-    }
-    h1, h2 {
-      text-align: center;
-      color: #ffffff;
-    }
-    label {
-      display: block;
-      margin-top: 10px;
-      font-weight: bold;
-    }
-    input[type=number] {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      border: 1px solid #444;
-      border-radius: 6px;
-      box-sizing: border-box;
-      font-size: 16px;
-      background: #222;
-      color: #f0f0f0;
-    }
-    button.calc {
-      margin-top: 20px;
-      width: 100%;
-      padding: 12px;
-      background: #007bff;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    button.calc:hover {
-      background: #0056b3;
-    }
-    .results {
-      margin-top: 20px;
-      padding: 15px;
-      background: #263238;
-      border-left: 5px solid #90caf9;
-      border-radius: 6px;
-      font-size: 18px;
-    }
-    .fatigue {
-      font-weight: bold;
-      font-size: 20px;
-      margin-top: 10px;
-    }
-    .faq {
-      margin-top: 30px;
-      background: #1a1a1a;
-      border-radius: 8px;
-      padding: 15px;
-      font-size: 16px;
-      line-height: 1.4;
-      border: 1px solid #333;
-      color: #eee;
-    }
-    .faq summary {
-      color: #ffffff !important;
-      cursor: pointer;
-    }
-    .faq p {
-      color: #dddddd !important;
-      margin: 10px 0 0 0;
-    }
-    .faq details {
-      background: #2a2a2a !important;
-      border-color: #555555 !important;
-      color: #eeeeee !important;
-      padding: 10px;
-      border-radius: 6px;
-      margin-bottom: 10px;
-    }
-    details, summary {
-      color: inherit;
-    }
-    #darkModeToggle {
-      position: absolute;
-      top: 10px;
-      right: 20px;
-      width: auto;
-      display: inline-block;
-      padding: 6px 12px;
-      font-size: 18px;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      z-index: 999;
-      user-select: none;
-      color: #f0f0f0;
-    }
-    .share {
-      margin-top: 20px;
-      text-align: center;
-    }
-    .share a {
-      margin: 0 10px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 14px;
-      display: inline-flex;
-      align-items: center;
-      color: inherit;
-      border: 1px solid transparent;
-      border-radius: 6px;
-      padding: 6px 12px;
-      transition: background 0.3s, border-color 0.3s;
-      user-select: none;
-    }
-    .share a:hover {
-      background: rgba(255,255,255,0.1);
-      border-color: #90caf9;
-    }
-    .share img {
-      width: 18px;
-      height: 18px;
-      margin-right: 6px;
-      vertical-align: middle;
-    }
-    /* Specific brand colors */
-    .share a.x {
-      color: #000000;
-      background: #fff;
-      border-color: #000;
-    }
-    .share a.x:hover {
-      background: #e0e0e0;
-      border-color: #000;
-    }
-    .share a.whatsapp {
-      color: #25D366;
-      border-color: #25D366;
-    }
-    .share a.whatsapp:hover {
-      background: #128C7E;
-      color: #fff;
-      border-color: #128C7E;
-    }
-    #visitCount {
-      text-align: center;
-      font-size: 13px;
-      color: #aaa;
-      margin-top: 40px;
-      user-select: none;
-    }
-    .credit {
-      text-align: center;
-      font-size: 14px;
-      color: #888;
-      margin-top: 40px;
-      user-select: none;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="google-site-verification" content="AOiTGI_SnsG9S2IfTSFuHc4RVun0iFu8mgcWKqJVYqc" />
+<title>Sleep Debt Calculator</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0; padding: 20px;
+    background: #121212;
+    color: #f0f0f0;
+    transition: background 0.3s, color 0.3s;
+  }
+  body.dark {
+    background: #121212;
+    color: #f0f0f0;
+  }
+  body:not(.dark) {
+    background: #fafafa;
+    color: #222;
+  }
+  .container {
+    max-width: 600px;
+    margin: auto;
+    background: #1e1e1e;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    position: relative;
+  }
+  body:not(.dark) .container {
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  h1, h2 {
+    text-align: center;
+    color: inherit;
+  }
+  label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  input[type=number] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #444;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 16px;
+    background: #222;
+    color: #f0f0f0;
+  }
+  body:not(.dark) input[type=number] {
+    background: #fff;
+    color: #222;
+    border: 1px solid #ccc;
+  }
+  button.calc {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  button.calc:hover {
+    background: #0056b3;
+  }
+  .results {
+    margin-top: 20px;
+    padding: 15px;
+    background: #263238;
+    border-left: 5px solid #90caf9;
+    border-radius: 6px;
+    font-size: 18px;
+  }
+  body:not(.dark) .results {
+    background: #e3f2fd;
+    border-color: #1976d2;
+    color: #0d47a1;
+  }
+  .fatigue {
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 10px;
+  }
+  .faq {
+    margin-top: 30px;
+    background: #1a1a1a;
+    border-radius: 8px;
+    padding: 15px;
+    font-size: 16px;
+    line-height: 1.4;
+    border: 1px solid #333;
+    color: #eee;
+  }
+  body:not(.dark) .faq {
+    background: #f9f9f9;
+    border-color: #ddd;
+    color: #222;
+  }
+  .faq summary {
+    color: inherit;
+    cursor: pointer;
+  }
+  .faq p {
+    margin: 10px 0 0 0;
+  }
+  details, summary {
+    color: inherit;
+  }
+  #darkModeToggle {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    padding: 6px 12px;
+    font-size: 20px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 999;
+    user-select: none;
+    color: inherit;
+    transition: color 0.3s;
+  }
+  .share {
+    margin-top: 20px;
+    text-align: center;
+  }
+  .share a {
+    margin: 0 10px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    color: inherit;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    padding: 6px 12px;
+    transition: background 0.3s, border-color 0.3s;
+    user-select: none;
+  }
+  .share a:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: #90caf9;
+  }
+  .share img {
+    width: 18px;
+    height: 18px;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .share a.x {
+    color: #000000;
+    background: #fff;
+    border-color: #000;
+  }
+  .share a.x:hover {
+    background: #e0e0e0;
+    border-color: #000;
+  }
+  .share a.whatsapp {
+    color: #25D366;
+    border-color: #25D366;
+  }
+  .share a.whatsapp:hover {
+    background: #128C7E;
+    color: #fff;
+    border-color: #128C7E;
+  }
+  #visitCount {
+    text-align: center;
+    font-size: 13px;
+    color: #aaa;
+    margin-top: 40px;
+    user-select: none;
+  }
+  .credit {
+    text-align: center;
+    font-size: 14px;
+    color: #888;
+    margin-top: 40px;
+    user-select: none;
+  }
+</style>
 </head>
-<body id="body" class="dark">
+<body id="body">
   <div class="container">
     <button id="darkModeToggle" aria-label="Toggle dark/light mode">☀️</button>
 
@@ -186,7 +202,7 @@
     </div>
 
     <h1>Sleep Debt Calculator</h1>
-    <p style="text-align:center; font-size: 16px; color: #ccc; margin-top: -10px;">
+    <p style="text-align:center; font-size: 16px; color: #888; margin-top: -10px;">
       Quickly find out how much sleep you’ve missed this week — and how to catch up.
     </p>
 
@@ -277,7 +293,7 @@
       document.getElementById('shareWhatsApp').href = `https://api.whatsapp.com/send?text=${whatsappText}`;
     });
 
-    // Dark mode toggle logic (fixed)
+    // Dark mode toggle logic
     document.addEventListener('DOMContentLoaded', () => {
       const toggleBtn = document.getElementById('darkModeToggle');
       const body = document.getElementById('body');
