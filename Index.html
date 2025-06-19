@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Find your weekly sleep debt and plan recovery. Understand your sleep deficit and how to fix it with our simple Sleep Debt Calculator." />
-  <title>Sleep Debt and Recovery Calculator</title>
+  <title>Sleep Debt Calculator</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -82,6 +82,9 @@
       margin: 0 10px;
       padding: 10px 20px;
       font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
     details {
       margin-top: 10px;
@@ -95,23 +98,52 @@
       font-weight: bold;
       font-size: 16px;
     }
-    @media (max-width: 480px) {
-      .container {
-        padding: 15px;
-      }
-      button {
-        font-size: 14px;
-        padding: 10px;
-      }
+    #darkModeToggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 6px 12px;
+      font-size: 14px;
+      background: #333;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      z-index: 999;
+    }
+    body.dark {
+      background: #121212;
+      color: #f0f0f0;
+    }
+    body.dark input,
+    body.dark select {
+      background: #222;
+      color: #f0f0f0;
+      border-color: #444;
+    }
+    body.dark .container {
+      background: #1e1e1e;
+    }
+    body.dark .results {
+      background: #263238;
+      border-left-color: #90caf9;
+    }
+    body.dark .tips,
+    body.dark .seo-text,
+    body.dark .faq {
+      background: #1a1a1a;
+      border-color: #333;
     }
   </style>
 </head>
-<body>
+<body id="body">
+  <button id="darkModeToggle">🌙 Dark Mode</button>
   <div class="container">
-    <h1>Sleep Debt and Recovery Calculator</h1>
-<p style="text-align:center; font-size: 16px; color: #555; margin-top: -10px;">
-  Quickly find out how much sleep you’ve missed this week — and how to catch up.
-</p>
+    <h1>Sleep Debt Calculator</h1>
+    <p style="text-align:center; font-size: 16px; color: #555; margin-top: -10px;">
+      Quickly find out how much sleep you’ve missed this week — and how to catch up.
+    </p>
+
     <label for="ideal">Ideal Sleep (hours/night)</label>
     <input type="number" id="ideal" value="8" min="1" max="12" />
 
@@ -125,124 +157,95 @@
       <p class="fatigue">Fatigue Risk Level: <span id="fatigue"></span></p>
 
       <div class="share-buttons">
-        <button id="shareTwitter" aria-label="Share on Twitter">🐦 Share on Twitter</button>
-        <button id="shareWhatsApp" aria-label="Share on WhatsApp">💬 Share on WhatsApp</button>
+        <button id="shareTwitter">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/X_logo_2023.svg" alt="X logo" style="height: 16px;">
+          Share on X
+        </button>
+        <button id="shareWhatsApp">💬 Share on WhatsApp</button>
       </div>
     </div>
 
     <div class="tips">
       <h2>How to Use These Results</h2>
-      <p>
-        Your total sleep debt shows how many hours you missed compared to your ideal sleep this week.  
-        The recovery sleep suggests extra hours you should add over the next few days to feel rested.  
-        Try to avoid accumulating large sleep debts regularly to maintain focus, mood, and health.
-      </p>
+      <p>Your total sleep debt shows how many hours you missed compared to your ideal sleep this week. The recovery sleep suggests extra hours you should add over the next few days to feel rested. Try to avoid accumulating large sleep debts regularly to maintain focus, mood, and health.</p>
     </div>
 
     <div class="seo-text">
       <h2>Why Sleep Debt Matters</h2>
-      <p>
-        Sleep debt accumulates when you sleep less than your body needs. Chronic sleep debt can impair memory, immune function, and increase the risk of many diseases. Catching up on sleep by sleeping extra on some days can help, but consistent good sleep habits are best.
-      </p>
+      <p>Sleep debt accumulates when you sleep less than your body needs. Chronic sleep debt can impair memory, immune function, and increase the risk of many diseases. Catching up on sleep by sleeping extra on some days can help, but consistent good sleep habits are best.</p>
     </div>
 
     <div class="faq">
       <h2>FAQ</h2>
-
-      <details>
-        <summary>What is sleep debt?</summary>
-        <p>Sleep debt is the difference between the amount of sleep your body needs and the actual sleep you get.</p>
-      </details>
-
-      <details>
-        <summary>Can I catch up on sleep during weekends?</summary>
-        <p>Yes, catching up helps reduce sleep debt, but regular consistent sleep is healthier.</p>
-      </details>
-
-      <details>
-        <summary>What happens if I ignore sleep debt?</summary>
-        <p>Ignoring sleep debt can cause poor concentration, mood issues, and long-term health risks.</p>
-      </details>
-
+      <details><summary>What is sleep debt?</summary><p>Sleep debt is the difference between the amount of sleep your body needs and the actual sleep you get.</p></details>
+      <details><summary>Can I catch up on sleep during weekends?</summary><p>Yes, catching up helps reduce sleep debt, but regular consistent sleep is healthier.</p></details>
+      <details><summary>What happens if I ignore sleep debt?</summary><p>Ignoring sleep debt can cause poor concentration, mood issues, and long-term health risks.</p></details>
     </div>
+
+    <p style="text-align:center; font-size:14px; color:#888; margin-top:40px;">
+      Built with ☕ by Lenny Rajan
+    </p>
   </div>
 
   <script>
     const daysOfWeek = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
     const daysDiv = document.getElementById('days');
 
-    // Create inputs for each day dynamically
     daysOfWeek.forEach(day => {
       const label = document.createElement('label');
       label.innerText = `${day} Sleep (hours)`;
-      label.setAttribute('for', day.toLowerCase());
-
       const input = document.createElement('input');
       input.type = 'number';
       input.min = '0';
       input.max = '24';
       input.value = '7';
       input.id = day.toLowerCase();
-
       daysDiv.appendChild(label);
       daysDiv.appendChild(input);
     });
 
-    const calcBtn = document.getElementById('calcBtn');
-    calcBtn.addEventListener('click', calculateDebt);
+    document.getElementById('calcBtn').addEventListener('click', calculateDebt);
 
     function calculateDebt() {
       const ideal = parseFloat(document.getElementById('ideal').value);
-      if (isNaN(ideal) || ideal < 1 || ideal > 12) {
-        alert('Please enter a valid ideal sleep between 1 and 12 hours.');
-        return;
-      }
-
       let totalDebt = 0;
       daysOfWeek.forEach(day => {
         const hours = parseFloat(document.getElementById(day.toLowerCase()).value);
-        if (isNaN(hours) || hours < 0 || hours > 24) {
-          alert(`Please enter valid hours (0-24) for ${day}`);
-          totalDebt = null;
-          return;
-        }
-        const dailyDebt = Math.max(0, ideal - hours);
-        totalDebt += dailyDebt;
+        totalDebt += Math.max(0, ideal - hours);
       });
-
-      if (totalDebt === null) return;
-
-      const recovery = totalDebt * 1.25; // 25% extra to fully recover
-      let fatigueLevel = '';
-      if (totalDebt <= 5) fatigueLevel = 'Low';
-      else if (totalDebt <= 10) fatigueLevel = 'Moderate';
-      else fatigueLevel = 'High';
-
+      const recovery = totalDebt * 1.25;
+      const fatigue = totalDebt <= 5 ? 'Low' : totalDebt <= 10 ? 'Moderate' : 'High';
       document.getElementById('debt').innerText = totalDebt.toFixed(1);
       document.getElementById('recovery').innerText = recovery.toFixed(1);
-      document.getElementById('fatigue').innerText = fatigueLevel;
+      document.getElementById('fatigue').innerText = fatigue;
       document.getElementById('results').style.display = 'block';
-
-      updateShareLinks(totalDebt, recovery, fatigueLevel);
+      updateShareLinks(totalDebt, recovery, fatigue);
     }
 
     function updateShareLinks(debt, recovery, fatigue) {
       const tweetText = encodeURIComponent(
-        `I just calculated my weekly sleep debt: ${debt.toFixed(1)} hours. ` +
-        `Recommended recovery sleep: ${recovery.toFixed(1)} hours. Fatigue risk: ${fatigue}. ` +
-        'Check your sleep debt and improve your health! https://sleepdebtrecoverycalculator.netlify.app'
+        `I just calculated my weekly sleep debt: ${debt.toFixed(1)} hours. Recommended recovery: ${recovery.toFixed(1)} hours. Fatigue risk: ${fatigue}. Try it here: https://sleepdebtrecoverycalculator.netlify.app`
       );
-      const twitterUrl = `https://twitter.com/intent/tweet?text=${tweetText}`;
-
       const whatsappText = encodeURIComponent(
-        `My weekly sleep debt is ${debt.toFixed(1)} hours. Recommended recovery: ${recovery.toFixed(1)} hours. Fatigue risk level: ${fatigue}.\n` +
-        'Try the Sleep Debt Calculator here: https://sleepdebtrecoverycalculator.netlify.app'
+        `My weekly sleep debt is ${debt.toFixed(1)} hours. Recovery sleep needed: ${recovery.toFixed(1)} hours. Risk level: ${fatigue}. Check yours: https://sleepdebtrecoverycalculator.netlify.app`
       );
-      const whatsappUrl = `https://api.whatsapp.com/send?text=${whatsappText}`;
-
-      document.getElementById('shareTwitter').onclick = () => window.open(twitterUrl, '_blank');
-      document.getElementById('shareWhatsApp').onclick = () => window.open(whatsappUrl, '_blank');
+      document.getElementById('shareTwitter').onclick = () => window.open(`https://twitter.com/intent/tweet?text=${tweetText}`, '_blank');
+      document.getElementById('shareWhatsApp').onclick = () => window.open(`https://api.whatsapp.com/send?text=${whatsappText}`, '_blank');
     }
+
+    const toggleBtn = document.getElementById('darkModeToggle');
+    const body = document.getElementById('body');
+    const darkPref = localStorage.getItem('darkMode');
+    if (darkPref === 'enabled') {
+      body.classList.add('dark');
+      toggleBtn.innerText = '☀️ Light Mode';
+    }
+    toggleBtn.addEventListener('click', () => {
+      body.classList.toggle('dark');
+      const enabled = body.classList.contains('dark');
+      toggleBtn.innerText = enabled ? '☀️ Light Mode' : '🌙 Dark Mode';
+      localStorage.setItem('darkMode', enabled ? 'enabled' : 'disabled');
+    });
   </script>
 </body>
 </html>
