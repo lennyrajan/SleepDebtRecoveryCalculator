@@ -267,10 +267,11 @@
       document.getElementById('results').style.display = 'block';
       document.getElementById('shareButtons').style.display = 'block';
 
-      // Update share URLs with current result
-      const baseUrl = encodeURIComponent('https://sleepdebtrecoverycalculator.netlify.app');
-      const tweetText = encodeURIComponent(`Just calculated my sleep debt: ${totalDebt.toFixed(1)} hours with SleepCalc! Try it here: ${baseUrl}`);
-      const whatsappText = encodeURIComponent(`Just calculated my sleep debt: ${totalDebt.toFixed(1)} hours with SleepCalc! Try it here: ${baseUrl}`);
+      // Fix URL encoding for share links
+      const baseUrl = 'https://sleepdebtrecoverycalculator.netlify.app';
+      const encodedUrl = encodeURIComponent(baseUrl);
+      const tweetText = encodeURIComponent(`Just calculated my sleep debt: ${totalDebt.toFixed(1)} hours with SleepCalc! Try it here: `) + encodedUrl;
+      const whatsappText = encodeURIComponent(`Just calculated my sleep debt: ${totalDebt.toFixed(1)} hours with SleepCalc! Try it here: `) + encodedUrl;
 
       document.getElementById('shareX').href = `https://x.com/intent/tweet?text=${tweetText}`;
       document.getElementById('shareWhatsApp').href = `https://api.whatsapp.com/send?text=${whatsappText}`;
