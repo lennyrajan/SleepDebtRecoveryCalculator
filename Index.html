@@ -99,19 +99,19 @@
       font-size: 16px;
     }
     #darkModeToggle {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  width: auto;
-  display: inline-block;
-  padding: 6px 12px;
-  font-size: 14px;
-  background: #333;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  z-index: 999;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      width: auto;
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 14px;
+      background: #333;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      z-index: 999;
     }
     body.dark {
       background: #121212;
@@ -141,6 +141,10 @@
 <body id="body">
   <button id="darkModeToggle">🌙 Dark Mode</button>
   <div class="container">
+
+    <div style="text-align:center; margin-bottom: 10px;">
+      <span style="font-weight:bold; font-size: 24px; color:#007bff;">💤 SleepCalc</span>
+    </div>
     <h1>Sleep Debt Calculator</h1>
     <p style="text-align:center; font-size: 16px; color: #555; margin-top: -10px;">
       Quickly find out how much sleep you’ve missed this week — and how to catch up.
@@ -160,7 +164,9 @@
 
       <div class="share-buttons">
         <button id="shareTwitter">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/X_logo_2023.svg" alt="X logo" style="height: 16px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 120 120" fill="black">
+            <path d="M75.3 14.2h33.4L72.2 55.4 112.3 106H82.7L58.3 74.4 29.5 106H-1.9l40.6-44.2L1.3 14.2h31.4l23.1 28.6 19.5-28.6z"/>
+          </svg>
           Share on X
         </button>
         <button id="shareWhatsApp">💬 Share on WhatsApp</button>
@@ -186,6 +192,10 @@
 
     <p style="text-align:center; font-size:14px; color:#888; margin-top:40px;">
       Built with ☕ by Lenny Rajan
+    </p>
+
+    <p style="text-align:center; font-size:13px; color:#aaa;" id="visitCount">
+      👁️ Visitors: counting...
     </p>
   </div>
 
@@ -248,6 +258,12 @@
       toggleBtn.innerText = enabled ? '☀️ Light Mode' : '🌙 Dark Mode';
       localStorage.setItem('darkMode', enabled ? 'enabled' : 'disabled');
     });
+
+    fetch('https://counterapi.com/api/sleepcalc?increment')
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('visitCount').innerText = `👁️ Visitors: ${data.count}`;
+      });
   </script>
 </body>
 </html>
