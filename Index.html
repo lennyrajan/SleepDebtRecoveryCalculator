@@ -277,29 +277,27 @@
       document.getElementById('shareWhatsApp').href = `https://api.whatsapp.com/send?text=${whatsappText}`;
     });
 
-    // Dark mode toggle logic
-    const toggleBtn = document.getElementById('darkModeToggle');
-    const body = document.getElementById('body');
-    const darkPref = localStorage.getItem('darkMode');
+    // Dark mode toggle logic (fixed)
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggleBtn = document.getElementById('darkModeToggle');
+      const body = document.getElementById('body');
 
-    function updateToggleIcon(enabled) {
-      toggleBtn.innerText = enabled ? '☀️' : '🌙';
-    }
+      let darkPref = localStorage.getItem('darkMode');
+      if (!darkPref || darkPref === 'enabled') {
+        body.classList.add('dark');
+        toggleBtn.textContent = '☀️';
+        localStorage.setItem('darkMode', 'enabled');
+      } else {
+        body.classList.remove('dark');
+        toggleBtn.textContent = '🌙';
+      }
 
-    if (!darkPref || darkPref === 'enabled') {
-      body.classList.add('dark');
-      updateToggleIcon(true);
-      localStorage.setItem('darkMode', 'enabled');
-    } else {
-      body.classList.remove('dark');
-      updateToggleIcon(false);
-    }
-
-    toggleBtn.addEventListener('click', () => {
-      body.classList.toggle('dark');
-      const enabled = body.classList.contains('dark');
-      updateToggleIcon(enabled);
-      localStorage.setItem('darkMode', enabled ? 'enabled' : 'disabled');
+      toggleBtn.addEventListener('click', () => {
+        body.classList.toggle('dark');
+        const enabled = body.classList.contains('dark');
+        toggleBtn.textContent = enabled ? '☀️' : '🌙';
+        localStorage.setItem('darkMode', enabled ? 'enabled' : 'disabled');
+      });
     });
 
     // Fake visitor counter
