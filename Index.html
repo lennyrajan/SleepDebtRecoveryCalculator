@@ -116,6 +116,10 @@
   z-index: 100;
   pointer-events: none;
 }
+    <p id="fakeVisitorCount" style="font-weight:600; color:#ff6600; margin-top:1rem; text-align:center;">
+  Visitors: 0
+</p>
+    
     #downloadBtn {
       margin-left: 0.5rem;
     }
@@ -443,6 +447,13 @@
         shareBtns.forEach(btn => btn.style.display = '');
       });
     });
+    // Fake visitor counter starting at 3073
+const visitorKey = 'ssy_fake_visitor_count';
+let count = parseInt(localStorage.getItem(visitorKey)) || 3073;
+const randomIncrement = Math.floor(Math.random() * 3) + 1;
+count += randomIncrement;
+document.getElementById('fakeVisitorCount').innerText = 'Visitors: ' + count.toLocaleString();
+localStorage.setItem(visitorKey, count);
   </script>
 </body>
 </html>
