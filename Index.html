@@ -2,8 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="google-site-verification" content="AOiTGI_SnsG9S2IfTSFuHc4RVun0iFu8mgcWKqJVYqc" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Google Site Verification -->
+  <meta name="google-site-verification" content="AOiTGI_SnsG9S2IfTSFuHc4RVun0iFu8mgcWKqJVYqc" />
+
   <meta name="description" content="Find your weekly sleep debt and plan recovery. Understand your sleep deficit and how to fix it with our simple Sleep Debt Calculator." />
   <title>Sleep Debt Calculator</title>
   <style>
@@ -135,6 +138,18 @@
     body.dark .faq {
       background: #1a1a1a;
       border-color: #333;
+      color: #eee;  /* Fix text color */
+    }
+    body.dark .faq {
+      background: #2a2a2a;  /* Slightly lighter bg for FAQ */
+      border-color: #555;
+      color: #eee;
+    }
+    body.dark .faq summary {
+      color: #fff;
+    }
+    body.dark .faq p {
+      color: #ddd;
     }
   </style>
 </head>
@@ -271,7 +286,7 @@
 
     // Fake visitor counter logic
     const visitorKey = 'sleepcalc_fake_visitor_count';
-    let count = parseInt(localStorage.getItem(visitorKey)) || 3073;
+    let count = parseInt(localStorage.getItem(visitorKey)) || 3207;
     const randomIncrement = Math.floor(Math.random() * 3) + 1;
     count += randomIncrement;
     document.getElementById('fakeVisitorCount').innerText = count.toLocaleString();
