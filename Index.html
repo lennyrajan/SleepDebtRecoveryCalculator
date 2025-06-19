@@ -105,13 +105,12 @@
       width: auto;
       display: inline-block;
       padding: 6px 12px;
-      font-size: 14px;
-      background: #333;
-      color: #fff;
+      font-size: 18px;
+      background: transparent;
       border: none;
-      border-radius: 6px;
       cursor: pointer;
       z-index: 999;
+      user-select: none;
     }
     body.dark {
       background: #121212;
@@ -139,7 +138,7 @@
   </style>
 </head>
 <body id="body">
-  <button id="darkModeToggle">🌙 </button>
+  <button id="darkModeToggle" aria-label="Toggle dark mode">🌙</button>
   <div class="container">
 
     <div style="text-align:center; margin-bottom: 10px;">
@@ -163,13 +162,13 @@
       <p class="fatigue">Fatigue Risk Level: <span id="fatigue"></span></p>
 
       <div class="share-buttons">
-        <button id="shareTwitter">
+        <button id="shareTwitter" aria-label="Share on X">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 120 120" fill="black">
             <path d="M75.3 14.2h33.4L72.2 55.4 112.3 106H82.7L58.3 74.4 29.5 106H-1.9l40.6-44.2L1.3 14.2h31.4l23.1 28.6 19.5-28.6z"/>
           </svg>
           Share on X
         </button>
-        <button id="shareWhatsApp">💬 Share on WhatsApp</button>
+        <button id="shareWhatsApp" aria-label="Share on WhatsApp">💬 Share on WhatsApp</button>
       </div>
     </div>
 
@@ -248,14 +247,22 @@
     const toggleBtn = document.getElementById('darkModeToggle');
     const body = document.getElementById('body');
     const darkPref = localStorage.getItem('darkMode');
+
+    function updateToggleIcon(enabled) {
+      toggleBtn.innerText = enabled ? '☀️' : '🌙';
+    }
+
     if (darkPref === 'enabled') {
       body.classList.add('dark');
-      toggleBtn.innerText = '☀️ Light Mode';
+      updateToggleIcon(true);
+    } else {
+      updateToggleIcon(false);
     }
+
     toggleBtn.addEventListener('click', () => {
       body.classList.toggle('dark');
       const enabled = body.classList.contains('dark');
-      toggleBtn.innerText = enabled ? '☀️ Light Mode' : '🌙 Dark Mode';
+      updateToggleIcon(enabled);
       localStorage.setItem('darkMode', enabled ? 'enabled' : 'disabled');
     });
 
