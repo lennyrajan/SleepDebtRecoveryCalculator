@@ -3,22 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sukanya Samriddhi Yojana (SSY) Maturity Calculator</title>
-  
-  <!-- SEO and Google verification -->
-  <meta name="description" content="Calculate the maturity amount for your Sukanya Samriddhi Yojana (SSY) account. Plan your investments with ease using this comprehensive calculator." />
-  <meta name="keywords" content="Sukanya Samriddhi Yojana, SSY Calculator, SSY maturity, SSY interest calculation, SSY investment" />
-  <meta name="author" content="Lenny Rajan" />
   <meta name="google-site-verification" content="AOiTGI_SnsG9S2IfTSFuHc4RVun0iFu8mgcWKqJVYqc" />
-  
+  <title>Sukanya Samriddhi Yojana (SSY) Maturity Calculator</title>
+  <meta name="description" content="Calculate Sukanya Samriddhi Yojana maturity amount with current balance, monthly/yearly deposits, tenure, and interest rate." />
+  <meta name="keywords" content="Sukanya Samriddhi Yojana, SSY, maturity calculator, savings, investment, Indian government scheme" />
+  <meta name="author" content="Lenny Rajan" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
-      padding-bottom: 120px; /* Enough for footer + visitor count */
+      padding-bottom: 80px;
       transition: background-color 0.3s, color 0.3s;
       background-color: #121212;
       color: #f0f0f0;
@@ -81,7 +77,6 @@
       color: inherit;
       border-bottom: 1px solid #ccc;
       transition: background-color 0.3s;
-      text-align: left;
     }
     .faq-answer {
       display: none;
@@ -97,54 +92,26 @@
     }
     footer {
       position: fixed;
-      bottom: 40px; /* leave space for visitor count */
-      width: 100%;
-      text-align: center;
-      padding: 0.5rem 0;
-      background-color: rgba(255, 102, 0, 0.15);
-      color: #ff6600;
-      font-weight: 600;
-      font-size: 0.9rem;
-      user-select: none;
-    }
-    #visitorCount {
-      position: fixed;
       bottom: 0;
       width: 100%;
       text-align: center;
-      font-size: 0.85rem;
-      color: #ff6600;
-      margin: 0;
-      padding: 0.25rem 0;
+      padding: 0.5rem 0;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #eee;
       font-weight: 600;
-      background-color: rgba(255, 102, 0, 0.12);
+      font-size: 0.9rem;
       user-select: none;
-      z-index: 999;
+      transition: color 0.3s ease, background-color 0.3s ease;
+      z-index: 1000;
     }
-    button.btn-primary {
-      background-color: #ff6600;
-      border-color: #ff6600;
+    body.light-mode footer {
+      color: #222;
+      background-color: rgba(0, 0, 0, 0.05);
     }
-    button.btn-primary:hover, button.btn-primary:focus {
-      background-color: #cc5200;
-      border-color: #cc5200;
-      outline: none;
-      box-shadow: none;
-    }
-    a.btn {
-      white-space: nowrap;
-    }
-    /* Responsive tweaks */
-    @media (max-width: 480px) {
-      .container {
-        padding-left: 1rem;
-        padding-right: 1rem;
-      }
-      #themeToggle {
-        font-size: 1.4rem;
-        top: 0.6rem;
-        right: 0.6rem;
-      }
+    /* Share buttons spacing fix */
+    #shareSection a {
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
     }
   </style>
 </head>
@@ -210,7 +177,7 @@
         <h2 class="h6">Share your results</h2>
         <a id="whatsappShare" class="btn btn-success me-2" target="_blank" rel="noopener">📱 WhatsApp</a>
         <a id="xShare" class="btn btn-dark me-2" target="_blank" rel="noopener">𝕏 Share</a>
-        <button id="downloadResult" class="btn btn-outline-primary">⬇️ Download Result</button>
+        <button id="downloadBtn" class="btn btn-secondary">⬇️ Download Results</button>
       </div>
     </section>
 
@@ -266,11 +233,10 @@
         </div>
       </div>
     </section>
-  </main>
+    </main>
 
-  <footer>Made with ☕by Lenny Rajan</footer>
+  <footer>Made with ☕ by Lenny Rajan</footer>
 
-  <p id="visitorCount" aria-label="Visitor count">Visitors: <span id="fakeVisitorCount">0</span></p>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     const form = document.getElementById('ssyForm');
@@ -281,9 +247,27 @@
     const faqButtons = document.querySelectorAll('.faq-item button');
     const themeToggle = document.getElementById('themeToggle');
     const investmentTooltip = document.querySelector('label[for="investmentAmount"] .tooltip-icon');
-    const visitorCountEl = document.getElementById('fakeVisitorCount');
-    const downloadBtn = document.getElementById('downloadResult');
+    const downloadBtn = document.getElementById('downloadBtn');
     let chart;
+
+    // Visitor count fake
+    const visitorKey = 'sleepcalc_fake_visitor_count';
+    let count = parseInt(localStorage.getItem(visitorKey)) || 3073;
+    const visitorCountElem = document.createElement('div');
+    visitorCountElem.style.textAlign = 'center';
+    visitorCountElem.style.margin = '1rem 0 0 0';
+    visitorCountElem.style.color = 'inherit';
+    visitorCountElem.style.fontWeight = '600';
+    visitorCountElem.style.userSelect = 'none';
+    visitorCountElem.innerText = `Visitors: ${count.toLocaleString()}`;
+    document.querySelector('.container').appendChild(visitorCountElem);
+
+    setInterval(() => {
+      const randomIncrement = Math.floor(Math.random() * 3) + 1;
+      count += randomIncrement;
+      visitorCountElem.innerText = `Visitors: ${count.toLocaleString()}`;
+      localStorage.setItem(visitorKey, count);
+    }, 10000);
 
     // Update tooltip on investment type change
     function updateTooltip() {
@@ -314,15 +298,7 @@
       });
     });
 
-    // Fake visitor counter logic
-    const visitorKey = 'ssy_fake_visitor_count';
-    let count = parseInt(localStorage.getItem(visitorKey)) || 3073;
-    const randomIncrement = Math.floor(Math.random() * 3) + 1;
-    count += randomIncrement;
-    visitorCountEl.innerText = count.toLocaleString();
-    localStorage.setItem(visitorKey, count);
-
-    // Main calculation and chart rendering
+    // Calculation and chart logic
     form.addEventListener('submit', (e) => {
       e.preventDefault();
 
@@ -434,30 +410,61 @@
       document.getElementById('results').style.display = 'block';
     });
 
-    // Download result as image
+    // Download results as image without buttons
     downloadBtn.addEventListener('click', () => {
-      const resultsSection = document.getElementById('results');
-      // Hide share buttons before capture
+      // Hide share buttons and download button temporarily
       const shareButtons = shareSection.querySelectorAll('a, button');
-      shareButtons.forEach(el => el.style.display = 'none');
+      shareButtons.forEach(btn => btn.style.display = 'none');
 
-      // Use html2canvas for screenshot
-      import('https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js').then(({default: html2canvas}) => {
-        html2canvas(resultsSection, {backgroundColor: document.body.classList.contains('light-mode') ? '#f8f9fa' : '#121212'}).then(canvas => {
-          // Restore buttons visibility
-          shareButtons.forEach(el => el.style.display = '');
+      // Create canvas to merge chart and text
+      const container = document.getElementById('results');
+      const chartRect = chartCanvas.getBoundingClientRect();
 
-          // Create link to download
-          const link = document.createElement('a');
-          link.download = 'ssy-maturity-result.png';
-          link.href = canvas.toDataURL();
-          link.click();
-        });
-      }).catch(() => {
-        alert('Error downloading the result image. Please try again.');
-        // Restore buttons visibility just in case
-        shareButtons.forEach(el => el.style.display = '');
+      // Use html2canvas for accurate rendering
+      // If you want, you can include html2canvas lib here via CDN or fallback to manual method below.
+
+      // Manual approach: create a canvas, draw chart and text
+      const canvas = document.createElement('canvas');
+      const width = chartCanvas.width;
+      const height = chartCanvas.height + 150; // extra space for text
+      canvas.width = width * 2;  // High-res
+      canvas.height = height * 2;
+      const ctx = canvas.getContext('2d');
+      ctx.scale(2,2);
+      // Background white for light mode, dark for dark mode
+      if(document.body.classList.contains('light-mode')){
+        ctx.fillStyle = '#fff';
+      } else {
+        ctx.fillStyle = '#121212';
+      }
+      ctx.fillRect(0, 0, width, height);
+
+      // Draw chart image from chart canvas
+      ctx.drawImage(chartCanvas, 0, 0, width, chartCanvas.height);
+
+      // Draw the summary text
+      ctx.fillStyle = document.body.classList.contains('light-mode') ? '#212529' : '#f0f0f0';
+      ctx.font = '16px Segoe UI, Tahoma, Geneva, Verdana, sans-serif';
+      ctx.fillText(summary.textContent, 10, chartCanvas.height + 30);
+
+      // Draw detailed results text
+      ctx.font = '14px Segoe UI, Tahoma, Geneva, Verdana, sans-serif';
+      const items = detailedResults.querySelectorAll('li');
+      items.forEach((li, idx) => {
+        ctx.fillText(li.textContent, 10, chartCanvas.height + 55 + idx * 20);
       });
+
+      // Create image and trigger download
+      canvas.toBlob((blob) => {
+        const link = document.createElement('a');
+        link.download = 'ssy_maturity_results.png';
+        link.href = URL.createObjectURL(blob);
+        link.click();
+        URL.revokeObjectURL(link.href);
+      });
+
+      // Restore share buttons and download button
+      shareButtons.forEach(btn => btn.style.display = '');
     });
   </script>
 </body>
