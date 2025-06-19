@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,7 +9,9 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 0; padding: 20px; background: #121212; color: #f0f0f0;
+      margin: 0; padding: 20px;
+      background: #121212;
+      color: #f0f0f0;
     }
     .container {
       max-width: 600px;
@@ -39,7 +42,7 @@
       background: #222;
       color: #f0f0f0;
     }
-    button {
+    button.calc {
       margin-top: 20px;
       width: 100%;
       padding: 12px;
@@ -51,7 +54,7 @@
       cursor: pointer;
       transition: background 0.3s;
     }
-    button:hover {
+    button.calc:hover {
       background: #0056b3;
     }
     .results {
@@ -67,7 +70,7 @@
       font-size: 20px;
       margin-top: 10px;
     }
-    .tips, .seo-text, .faq {
+    .faq {
       margin-top: 30px;
       background: #1a1a1a;
       border-radius: 8px;
@@ -79,19 +82,24 @@
     }
     .faq summary {
       color: #ffffff !important;
+      cursor: pointer;
     }
     .faq p {
       color: #dddddd !important;
+      margin: 10px 0 0 0;
     }
     .faq details {
       background: #2a2a2a !important;
       border-color: #555555 !important;
       color: #eeeeee !important;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 10px;
     }
     details, summary {
       color: inherit;
     }
- #darkModeToggle {
+    #darkModeToggle {
       position: absolute;
       top: 10px;
       right: 20px;
@@ -104,43 +112,130 @@
       cursor: pointer;
       z-index: 999;
       user-select: none;
+      color: #f0f0f0;
+    }
+    .share {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .share a {
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      color: inherit;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      padding: 6px 12px;
+      transition: background 0.3s, border-color 0.3s;
+      user-select: none;
+    }
+    .share a:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: #90caf9;
+    }
+    .share img {
+      width: 18px;
+      height: 18px;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    /* Specific brand colors */
+    .share a.x {
+      color: #000000;
+      background: #fff;
+      border-color: #000;
+    }
+    .share a.x:hover {
+      background: #e0e0e0;
+      border-color: #000;
+    }
+    .share a.whatsapp {
+      color: #25D366;
+      border-color: #25D366;
+    }
+    .share a.whatsapp:hover {
+      background: #128C7E;
+      color: #fff;
+      border-color: #128C7E;
+    }
+    #visitCount {
+      text-align: center;
+      font-size: 13px;
+      color: #aaa;
+      margin-top: 40px;
+      user-select: none;
+    }
+    .credit {
+      text-align: center;
+      font-size: 14px;
+      color: #888;
+      margin-top: 40px;
+      user-select: none;
     }
   </style>
 </head>
 <body id="body" class="dark">
   <div class="container">
-    <button id="darkModeToggle">☀️</button>
+    <button id="darkModeToggle" aria-label="Toggle dark/light mode">☀️</button>
+
     <div style="text-align:center; margin-bottom: 10px;">
       <span style="font-weight:bold; font-size: 24px; color:#007bff;">💤 SleepCalc</span>
     </div>
+
     <h1>Sleep Debt Calculator</h1>
     <p style="text-align:center; font-size: 16px; color: #ccc; margin-top: -10px;">
       Quickly find out how much sleep you’ve missed this week — and how to catch up.
     </p>
+
     <label for="ideal">Ideal Sleep (hours/night)</label>
     <input type="number" id="ideal" value="8" min="1" max="12" />
+
     <div id="days"></div>
-    <button id="calcBtn">Calculate Sleep Debt</button>
+
+    <button class="calc" id="calcBtn">Calculate Sleep Debt</button>
+
     <div class="results" id="results" style="display:none;">
       <p>Total Sleep Debt: <span id="debt"></span> hours</p>
       <p>Recommended Recovery Sleep: <span id="recovery"></span> hours</p>
       <p class="fatigue">Fatigue Risk Level: <span id="fatigue"></span></p>
     </div>
+
+    <div class="share" id="shareButtons" style="display:none;">
+      <a class="x" href="#" target="_blank" rel="noopener" id="shareX">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/X_logo_2023.svg" alt="X Logo" /> Share on X
+      </a>
+      <a class="whatsapp" href="#" target="_blank" rel="noopener" id="shareWhatsApp">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Logo" /> Share on WhatsApp
+      </a>
+    </div>
+
     <div class="faq">
       <h2>FAQ</h2>
-      <details><summary>What is sleep debt?</summary><p>Sleep debt is the difference between the amount of sleep your body needs and the actual sleep you get.</p></details>
-      <details><summary>Can I catch up on sleep during weekends?</summary><p>Yes, catching up helps reduce sleep debt, but regular consistent sleep is healthier.</p></details>
-      <details><summary>What happens if I ignore sleep debt?</summary><p>Ignoring sleep debt can cause poor concentration, mood issues, and long-term health risks.</p></details>
+      <details>
+        <summary>What is sleep debt?</summary>
+        <p>Sleep debt is the difference between the amount of sleep your body needs and the actual sleep you get.</p>
+      </details>
+      <details>
+        <summary>Can I catch up on sleep during weekends?</summary>
+        <p>Yes, catching up helps reduce sleep debt, but regular consistent sleep is healthier.</p>
+      </details>
+      <details>
+        <summary>What happens if I ignore sleep debt?</summary>
+        <p>Ignoring sleep debt can cause poor concentration, mood issues, and long-term health risks.</p>
+      </details>
     </div>
-    <p style="text-align:center; font-size:14px; color:#888; margin-top:40px;">
-      Built with ☕ by Lenny Rajan
-    </p>
-    <p style="text-align:center; font-size:13px; color:#aaa;" id="visitCount">
-      👁️ Visitors: <span id="fakeVisitorCount">3207</span>
-    </p>
+
+    <p class="credit">Built with ☕ by Lenny Rajan</p>
+
+    <p id="visitCount">👁️ Visitors: <span id="fakeVisitorCount">3207</span></p>
   </div>
+
   <script>
-    const daysOfWeek = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+    // Generate inputs for days Mon-Sun
+    const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     const daysDiv = document.getElementById('days');
     daysOfWeek.forEach(day => {
       const label = document.createElement('label');
@@ -153,52 +248,66 @@
       input.id = day.toLowerCase();
       daysDiv.appendChild(label);
       daysDiv.appendChild(input);
-    });document.getElementById('calcBtn').addEventListener('click', () => {
-  const ideal = parseFloat(document.getElementById('ideal').value);
-  let totalDebt = 0;
-  daysOfWeek.forEach(day => {
-    const hours = parseFloat(document.getElementById(day.toLowerCase()).value);
-    totalDebt += Math.max(0, ideal - hours);
-  });
-  const recovery = totalDebt * 1.25;
-  const fatigue = totalDebt <= 5 ? 'Low' : totalDebt <= 10 ? 'Moderate' : 'High';
-  document.getElementById('debt').innerText = totalDebt.toFixed(1);
-  document.getElementById('recovery').innerText = recovery.toFixed(1);
-  document.getElementById('fatigue').innerText = fatigue;
-  document.getElementById('results').style.display = 'block';
-});
+    });
 
-const toggleBtn = document.getElementById('darkModeToggle');
-const body = document.getElementById('body');
-const darkPref = localStorage.getItem('darkMode');
+    // Calculate sleep debt
+    document.getElementById('calcBtn').addEventListener('click', () => {
+      const ideal = parseFloat(document.getElementById('ideal').value);
+      let totalDebt = 0;
+      daysOfWeek.forEach(day => {
+        const hours = parseFloat(document.getElementById(day.toLowerCase()).value);
+        totalDebt += Math.max(0, ideal - hours);
+      });
+      const recovery = totalDebt * 1.25;
+      const fatigue = totalDebt <= 5 ? 'Low' : totalDebt <= 10 ? 'Moderate' : 'High';
 
-function updateToggleIcon(enabled) {
-  toggleBtn.innerText = enabled ? '☀️' : '🌙';
-}
+      document.getElementById('debt').innerText = totalDebt.toFixed(1);
+      document.getElementById('recovery').innerText = recovery.toFixed(1);
+      document.getElementById('fatigue').innerText = fatigue;
+      document.getElementById('results').style.display = 'block';
+      document.getElementById('shareButtons').style.display = 'block';
 
-if (!darkPref || darkPref === 'enabled') {
-  body.classList.add('dark');
-  updateToggleIcon(true);
-  localStorage.setItem('darkMode', 'enabled');
-} else {
-  body.classList.remove('dark');
-  updateToggleIcon(false);
-}
+      // Update share URLs with current result
+      const baseUrl = encodeURIComponent('https://sleepdebtrecoverycalculator.netlify.app');
+      const tweetText = encodeURIComponent(`Just calculated my sleep debt: ${totalDebt.toFixed(1)} hours with SleepCalc! Try it here: ${baseUrl}`);
+      const whatsappText = encodeURIComponent(`Just calculated my sleep debt: ${totalDebt.toFixed(1)} hours with SleepCalc! Try it here: ${baseUrl}`);
 
-toggleBtn.addEventListener('click', () => {
-  body.classList.toggle('dark');
-  const enabled = body.classList.contains('dark');
-  updateToggleIcon(enabled);
-  localStorage.setItem('darkMode', enabled ? 'enabled' : 'disabled');
-});
+      document.getElementById('shareX').href = `https://x.com/intent/tweet?text=${tweetText}`;
+      document.getElementById('shareWhatsApp').href = `https://api.whatsapp.com/send?text=${whatsappText}`;
+    });
 
-const visitorKey = 'sleepcalc_fake_visitor_count';
-let count = parseInt(localStorage.getItem(visitorKey)) || 3207;
-const randomIncrement = Math.floor(Math.random() * 3) + 1;
-count += randomIncrement;
-document.getElementById('fakeVisitorCount').innerText = count.toLocaleString();
-localStorage.setItem(visitorKey, count);
+    // Dark mode toggle logic
+    const toggleBtn = document.getElementById('darkModeToggle');
+    const body = document.getElementById('body');
+    const darkPref = localStorage.getItem('darkMode');
 
+    function updateToggleIcon(enabled) {
+      toggleBtn.innerText = enabled ? '☀️' : '🌙';
+    }
+
+    if (!darkPref || darkPref === 'enabled') {
+      body.classList.add('dark');
+      updateToggleIcon(true);
+      localStorage.setItem('darkMode', 'enabled');
+    } else {
+      body.classList.remove('dark');
+      updateToggleIcon(false);
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      body.classList.toggle('dark');
+      const enabled = body.classList.contains('dark');
+      updateToggleIcon(enabled);
+      localStorage.setItem('darkMode', enabled ? 'enabled' : 'disabled');
+    });
+
+    // Fake visitor counter
+    const visitorKey = 'sleepcalc_fake_visitor_count';
+    let count = parseInt(localStorage.getItem(visitorKey)) || 3207;
+    const randomIncrement = Math.floor(Math.random() * 3) + 1;
+    count += randomIncrement;
+    document.getElementById('fakeVisitorCount').innerText = count.toLocaleString();
+    localStorage.setItem(visitorKey, count);
   </script>
 </body>
 </html>
