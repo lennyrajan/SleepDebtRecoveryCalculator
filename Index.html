@@ -103,17 +103,19 @@
       display: none;
     }
     footer {
-      position: relative;
-      width: 100%;
-      text-align: center;
-      padding: 0.5rem 0;
-      background-color: transparent;
-      color: inherit;
-      font-weight: 600;
-      font-size: 0.9rem;
-      user-select: none;
-      margin-top: 2rem;
-    }
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  padding: 0.5rem 0;
+  background-color: transparent;
+  color: #aaa;
+  font-weight: 600;
+  font-size: 0.9rem;
+  user-select: none;
+  z-index: 100;
+  pointer-events: none;
+}
     #downloadBtn {
       margin-left: 0.5rem;
     }
