@@ -125,7 +125,6 @@
   <button id="themeToggle" title="Toggle theme">🌙</button>
   <main class="container">
     <h1 class="text-center mb-4">Sukanya Samriddhi Yojana (SSY) Maturity Calculator</h1>
-
     <p id="fakeVisitorCount" style="font-weight:600; color:#ff6600; margin-top:1rem; text-align:center;">
       Visitors: 0
     </p>
@@ -187,48 +186,55 @@
         <h2 class="h6">Share your results</h2>
         <a id="whatsappShare" class="btn btn-success me-2" target="_blank" rel="noopener" aria-label="Share on WhatsApp">📱 WhatsApp</a>
         <a id="xShare" class="btn btn-dark me-2" target="_blank" rel="noopener" aria-label="Share on X">𝕏 Share</a>
-        <button id="downloadBtn" class="btn btn-outline-primary" aria-label="Download results as image">⬇️ Download Result</button>
+        <button id="downloadBtn" class="btn btn-outline-primary mt-2" aria-label="Download results as image">⬇️ Download Result</button>
       </div>
     </section>
 
     <section class="mt-5" aria-label="Frequently Asked Questions">
       <h2 class="h5 mb-3">FAQs</h2>
+
       <div class="faq-item">
         <button aria-controls="faq1" type="button">What is Sukanya Samriddhi Yojana (SSY)?</button>
         <div id="faq1" class="faq-answer">
           Sukanya Samriddhi Yojana (SSY) is a government-backed savings scheme launched to encourage parents to save for their girl child's future education and marriage. It offers attractive interest rates along with tax benefits under Section 80C.
         </div>
       </div>
+
       <div class="faq-item">
         <button aria-controls="faq2" type="button">Who is eligible to open an SSY account?</button>
         <div id="faq2" class="faq-answer">
           A parent or guardian can open an SSY account in the name of their girl child below 10 years of age. Only one account is allowed per girl child.
         </div>
       </div>
+
       <div class="faq-item">
         <button aria-controls="faq3" type="button">What is the tenure and maturity period of SSY?</button>
         <div id="faq3" class="faq-answer">
           The account matures 21 years from the date of opening or upon the marriage of the girl after she turns 18 years, whichever is earlier.
         </div>
       </div>
+
       <div class="faq-item">
         <button aria-controls="faq4" type="button">What are the deposit limits?</button>
         <div id="faq4" class="faq-answer">
           Minimum deposit is ₹250 per year. Maximum deposits allowed are ₹1,50,000 per year (or ₹12,500 per month if depositing monthly). Deposits can be made in lump sum or installments.
         </div>
       </div>
+
       <div class="faq-item">
         <button aria-controls="faq5" type="button">What is the interest rate and how is it calculated?</button>
         <div id="faq5" class="faq-answer">
           The interest rate is set by the government quarterly and is compounded annually. Interest is calculated on the minimum balance between the 5th and last day of each month.
         </div>
       </div>
+
       <div class="faq-item">
         <button aria-controls="faq6" type="button">Can the account be closed early?</button>
         <div id="faq6" class="faq-answer">
           Partial or full withdrawal before maturity is allowed only under specific circumstances such as higher education or marriage of the girl after she reaches 18 years of age.
         </div>
       </div>
+
       <div class="faq-item">
         <button aria-controls="faq7" type="button">Are the deposits and interest tax-free?</button>
         <div id="faq7" class="faq-answer">
@@ -236,16 +242,16 @@
         </div>
       </div>
     </section>
-
   </main>
 
-  <footer>Made with ☕ by Lenny Rajan</footer>
+  <footer>
+    Made with ☕ by Lenny Rajan
+    <br />
+    <span id="fakeVisitorCount" style="display:block; margin-top:4px; font-weight:600;"></span>
+  </footer>
 
   <!-- Bootstrap JS bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-  <!-- html2canvas for screenshot -->
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
   <script>
     const form = document.getElementById('ssyForm');
@@ -259,17 +265,13 @@
     const downloadBtn = document.getElementById('downloadBtn');
     let chart;
 
-    // Visitor count setup
+    // Fake visitor counter
     const visitorKey = 'ssy_fake_visitor_count';
     let count = parseInt(localStorage.getItem(visitorKey)) || 3073;
-    const visitorCountElem = document.getElementById('fakeVisitorCount');
-    visitorCountElem.innerText = `Visitors: ${count.toLocaleString()}`;
-    setInterval(() => {
-      const randomIncrement = Math.floor(Math.random() * 3) + 1;
-      count += randomIncrement;
-      visitorCountElem.innerText = `Visitors: ${count.toLocaleString()}`;
-      localStorage.setItem(visitorKey, count);
-    }, 10000);
+    const randomIncrement = Math.floor(Math.random() * 3) + 1;
+    count += randomIncrement;
+    document.getElementById('fakeVisitorCount').innerText = 'Visitors: ' + count.toLocaleString();
+    localStorage.setItem(visitorKey, count);
 
     // Update tooltip on investment type change
     function updateTooltip() {
@@ -292,7 +294,7 @@
       themeToggle.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
     });
 
-    // FAQ toggle logic
+    // FAQ toggle
     faqButtons.forEach(btn => {
       btn.addEventListener('click', () => {
         const answer = document.getElementById(btn.getAttribute('aria-controls'));
@@ -300,34 +302,21 @@
       });
     });
 
-    // Calculation and chart logic
+    // Form submission
     form.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      const currentBalance = Math.max(0, parseFloat(document.getElementById('currentBalance').value) || 0);
-      const investmentAmountRaw = Math.max(0, parseFloat(document.getElementById('investmentAmount').value) || 0);
+      const currentBalance = parseFloat(document.getElementById('currentBalance').value) || 0;
+      const investmentAmount = parseFloat(document.getElementById('investmentAmount').value) || 0;
       const investmentType = document.querySelector('input[name="investmentType"]:checked').value;
+      const startYear = parseInt(document.getElementById('startYear').value);
+      const investmentYears = parseInt(document.getElementById('investmentYears').value);
       const interestRate = parseFloat(document.getElementById('interestRate').value) || 0;
-      const startYear = Math.min(2099, Math.max(2000, parseInt(document.getElementById('startYear').value) || new Date().getFullYear()));
-      const investmentYears = Math.min(15, Math.max(0, parseInt(document.getElementById('investmentYears').value) || 0));
 
-      // Validate investment amount limits
-      const monthlyMax = 12500;
-      const yearlyMax = 150000;
-      if ((investmentType === 'monthly' && investmentAmountRaw > monthlyMax) ||
-          (investmentType === 'yearly' && investmentAmountRaw > yearlyMax)) {
-        alert(`Investment amount exceeds max limit for ${investmentType} deposits.`);
-        return;
-      }
-
-      // Compute annual investment based on type
-      const annualInvestment = investmentType === 'monthly' ? investmentAmountRaw * 12 : investmentAmountRaw;
-
+      const annualInvestment = investmentType === 'monthly' ? investmentAmount * 12 : investmentAmount;
       const maturityYear = startYear + 21;
-      const currentYear = new Date().getFullYear();
-      const yearsLeft = maturityYear - currentYear;
+      const yearsLeft = maturityYear - new Date().getFullYear();
 
-      // Accumulators
       let total = currentBalance;
       let totalInvested = currentBalance;
       let totalInterest = 0;
@@ -340,15 +329,14 @@
           total += annualInvestment;
           totalInvested += annualInvestment;
         }
-        const interestForYear = (total * interestRate) / 100;
-        total += interestForYear;
-        totalInterest += interestForYear;
+        const interest = total * (interestRate / 100);
+        total += interest;
+        totalInterest += interest;
 
         yearlyBalances.push(total.toFixed(2));
         yearlyInterests.push(totalInterest.toFixed(2));
       }
 
-      // Update summary and detailed results
       summary.textContent = `Estimated maturity amount by ${maturityYear} is ₹${Math.round(total).toLocaleString()}.`;
 
       detailedResults.innerHTML = `
@@ -359,29 +347,28 @@
         <li><strong>Total Maturity Amount:</strong> ₹${Math.round(total).toLocaleString()}</li>
       `;
 
-      // Render chart
       if (chart) chart.destroy();
 
       chart = new Chart(chartCanvas, {
         type: 'line',
         data: {
-          labels: Array.from({length:21}, (_, i) => startYear + i),
+          labels: Array.from({ length: 21 }, (_, i) => startYear + i),
           datasets: [
             {
               label: 'Total Balance (₹)',
               data: yearlyBalances,
               borderColor: '#ff6600',
               backgroundColor: 'rgba(255, 102, 0, 0.2)',
-              tension: 0.3,
               fill: true,
+              tension: 0.3,
             },
             {
               label: 'Interest Earned (₹)',
               data: yearlyInterests,
               borderColor: '#007bff',
               backgroundColor: 'rgba(0, 123, 255, 0.2)',
-              tension: 0.3,
               fill: true,
+              tension: 0.3,
             }
           ]
         },
@@ -399,7 +386,6 @@
         }
       });
 
-      // Show share section
       shareSection.style.display = 'block';
 
       const shareText = `SSY Maturity by ${maturityYear}: ₹${Math.round(total).toLocaleString()}`;
@@ -408,27 +394,24 @@
       document.getElementById('whatsappShare').href = `https://wa.me/?text=${encodeURIComponent(shareText)}%20${shareURL}`;
       document.getElementById('xShare').href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${shareURL}`;
 
-      // Show results section
       document.getElementById('results').style.display = 'block';
     });
 
-    // Download result as image without buttons
+    // Download results image
     downloadBtn.addEventListener('click', () => {
-      // Hide share buttons before capture
       const shareBtns = shareSection.querySelectorAll('a, button');
       shareBtns.forEach(btn => btn.style.display = 'none');
 
-      html2canvas(document.getElementById('results')).then(canvas => {
-        // Restore buttons
-        shareBtns.forEach(btn => btn.style.display = '');
-
-        // Create a temporary link to download
-        const link = document.createElement('a');
-        link.download = 'ssy_maturity_results.png';
-        link.href = canvas.toDataURL('image/png');
-        link.click();
+      import('https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js').then(({ default: html2canvas }) => {
+        html2canvas(document.getElementById('results')).then(canvas => {
+          shareBtns.forEach(btn => btn.style.display = '');
+          const link = document.createElement('a');
+          link.download = 'ssy_maturity_results.png';
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+        });
       }).catch(() => {
-        alert('Failed to download image. Please try again.');
+        alert('Download failed');
         shareBtns.forEach(btn => btn.style.display = '');
       });
     });
