@@ -1,420 +1,328 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sukanya Samriddhi Yojana (SSY) Maturity Calculator</title>
-
-  <!-- SEO Meta Tags -->
-  <meta name="description" content="Calculate the maturity amount of your Sukanya Samriddhi Yojana (SSY) account with current balance, investment plans, and interest rates." />
-  <meta name="keywords" content="Sukanya Samriddhi Yojana, SSY, maturity calculator, investment, savings scheme, India government savings" />
-  <meta name="author" content="Lenny Rajan" />
-  <meta name="robots" content="index, follow" />
-  <meta name="google-site-verification" content="AOiTGI_SnsG9S2IfTSFuHc4RVun0iFu8mgcWKqJVYqc" />
-
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding-bottom: 80px;
-      transition: background-color 0.3s, color 0.3s;
-      background-color: #121212;
-      color: #f0f0f0;
-    }
-    body.light-mode {
-      background-color: #f8f9fa;
-      color: #212529;
-    }
-    #themeToggle {
-      position: fixed;
-      top: 1rem;
-      right: 1rem;
-      background: none;
-      border: none;
-      font-size: 1.7rem;
-      cursor: pointer;
-      color: #ff6600;
-      z-index: 1000;
-      user-select: none;
-    }
-    .container {
-      max-width: 600px;
-      padding: 1rem 1.5rem 4rem 1.5rem;
-      margin: auto;
-    }
-    label span.tooltip-icon {
-      margin-left: 6px;
-      color: #ff6600;
-      cursor: pointer;
-      font-weight: 700;
-      position: relative;
-      display: inline-block;
-      user-select: none;
-    }
-    label span.tooltip-icon:hover::after {
-      content: attr(title);
-      position: absolute;
-      bottom: 125%;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #333;
-      color: #fff;
-      padding: 6px 8px;
-      border-radius: 4px;
-      white-space: nowrap;
-      font-size: 0.85rem;
-      opacity: 1;
-      pointer-events: none;
-      z-index: 100;
-    }
-    label span.tooltip-icon::after {
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    .faq-item button {
-      width: 100%;
-      background: none;
-      border: none;
-      padding: 0.75rem;
-      font-weight: 600;
-      cursor: pointer;
-      color: inherit;
-      border-bottom: 1px solid #ccc;
-      transition: background-color 0.3s;
-      text-align: left;
-      user-select: none;
-    }
-    .faq-answer {
-      display: none;
-      padding: 0 0.75rem 0.75rem;
-      border-left: 3px solid #ff6600;
-    }
-    .faq-answer.show {
-      display: block;
-    }
-    #shareSection {
-      margin-top: 1.5rem;
-      display: none;
-    }
-    footer {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      text-align: center;
-      padding: 0.5rem 0;
-      background-color: transparent;
-      color: #aaa;
-      font-weight: 600;
-      font-size: 0.9rem;
-      user-select: none;
-      z-index: 100;
-      pointer-events: none;
-    }
-    #downloadBtn {
-      margin-left: 0.5rem;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="google-site-verification" content="AOiTGI_SnsG9S2IfTSFuHc4RVun0iFu8mgcWKqJVYqc" />
+<title>Sleep Debt Calculator</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0; padding: 20px;
+    background: #121212;
+    color: #f0f0f0;
+    transition: background 0.3s, color 0.3s;
+  }
+  body.dark {
+    background: #121212;
+    color: #f0f0f0;
+  }
+  body:not(.dark) {
+    background: #fafafa;
+    color: #222;
+  }
+  .container {
+    max-width: 600px;
+    margin: auto;
+    background: #1e1e1e;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    position: relative;
+  }
+  body:not(.dark) .container {
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  h1, h2 {
+    text-align: center;
+    color: inherit;
+  }
+  label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  input[type=number] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #444;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 16px;
+    background: #222;
+    color: #f0f0f0;
+  }
+  body:not(.dark) input[type=number] {
+    background: #fff;
+    color: #222;
+    border: 1px solid #ccc;
+  }
+  button.calc {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  button.calc:hover {
+    background: #0056b3;
+  }
+  .results {
+    margin-top: 20px;
+    padding: 15px;
+    background: #263238;
+    border-left: 5px solid #90caf9;
+    border-radius: 6px;
+    font-size: 18px;
+  }
+  body:not(.dark) .results {
+    background: #e3f2fd;
+    border-color: #1976d2;
+    color: #0d47a1;
+  }
+  .fatigue {
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 10px;
+  }
+  .faq {
+    margin-top: 30px;
+    background: #1a1a1a;
+    border-radius: 8px;
+    padding: 15px;
+    font-size: 16px;
+    line-height: 1.4;
+    border: 1px solid #333;
+    color: #eee;
+  }
+  body:not(.dark) .faq {
+    background: #f9f9f9;
+    border-color: #ddd;
+    color: #222;
+  }
+  .faq summary {
+    color: inherit;
+    cursor: pointer;
+  }
+  .faq p {
+    margin: 10px 0 0 0;
+  }
+  details, summary {
+    color: inherit;
+  }
+  #darkModeToggle {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    padding: 6px 12px;
+    font-size: 20px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 999;
+    user-select: none;
+    color: inherit;
+    transition: color 0.3s;
+  }
+  .share {
+    margin-top: 20px;
+    text-align: center;
+  }
+  .share a {
+    margin: 0 10px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    color: inherit;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    padding: 6px 12px;
+    transition: background 0.3s, border-color 0.3s;
+    user-select: none;
+  }
+  .share a:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: #90caf9;
+  }
+  .share img {
+    width: 18px;
+    height: 18px;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .share a.x {
+    color: #000000;
+    background: #fff;
+    border-color: #000;
+  }
+  .share a.x:hover {
+    background: #e0e0e0;
+    border-color: #000;
+  }
+  .share a.whatsapp {
+    color: #25D366;
+    border-color: #25D366;
+  }
+  .share a.whatsapp:hover {
+    background: #128C7E;
+    color: #fff;
+    border-color: #128C7E;
+  }
+  #visitCount {
+    text-align: center;
+    font-size: 13px;
+    color: #aaa;
+    margin-top: 40px;
+    user-select: none;
+  }
+  .credit {
+    text-align: center;
+    font-size: 14px;
+    color: #888;
+    margin-top: 40px;
+    user-select: none;
+  }
+</style>
 </head>
-<body class="dark-mode">
-  <button id="themeToggle" title="Toggle theme">🌙</button>
-  <main class="container">
-    <h1 class="text-center mb-4">Sukanya Samriddhi Yojana (SSY) Maturity Calculator</h1>
-    <p id="fakeVisitorCount" style="font-weight:600; color:#ff6600; margin-top:1rem; text-align:center;">
-      Visitors: 0
+<body id="body">
+  <div class="container">
+    <button id="darkModeToggle" aria-label="Toggle dark/light mode">☀️</button>
+
+    <div style="text-align:center; margin-bottom: 10px;">
+      <span style="font-weight:bold; font-size: 24px; color:#007bff;">💤 SleepCalc</span>
+    </div>
+
+    <h1>Sleep Debt Calculator</h1>
+    <p style="text-align:center; font-size: 16px; color: #888; margin-top: -10px;">
+      Quickly find out how much sleep you’ve missed this week — and how to catch up.
     </p>
 
-    <form id="ssyForm" novalidate>
-      <div class="mb-3">
-        <label for="currentBalance" class="form-label">
-          Current Balance (₹)
-          <span class="tooltip-icon" title="Existing amount in the account">ⓘ</span>
-        </label>
-        <input type="number" id="currentBalance" class="form-control" min="0" value="0" required />
-      </div>
+    <label for="ideal">Ideal Sleep (hours/night)</label>
+    <input type="number" id="ideal" value="8" min="1" max="12" />
 
-      <div class="mb-3">
-        <label for="investmentAmount" class="form-label">
-          Investment Amount (₹)
-          <span class="tooltip-icon" title="Monthly max ₹12,500, Yearly max ₹1,50,000">ⓘ</span>
-        </label>
-        <input type="number" id="investmentAmount" class="form-control" min="0" required />
-      </div>
+    <div id="days"></div>
 
-      <fieldset class="mb-3" id="investmentTypeFieldset">
-        <legend class="form-label">Investment Type</legend>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="investmentType" id="monthly" value="monthly" checked />
-          <label class="form-check-label" for="monthly">Monthly</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="investmentType" id="yearly" value="yearly" />
-          <label class="form-check-label" for="yearly">Yearly</label>
-        </div>
-      </fieldset>
+    <button class="calc" id="calcBtn">Calculate Sleep Debt</button>
 
-      <div class="mb-3">
-        <label for="startYear" class="form-label">Account Start Year</label>
-        <input type="number" id="startYear" class="form-control" min="2000" max="2099" value="2020" required />
-      </div>
+    <div class="results" id="results" style="display:none;">
+      <p>Total Sleep Debt: <span id="debt"></span> hours</p>
+      <p>Recommended Recovery Sleep: <span id="recovery"></span> hours</p>
+      <p class="fatigue">Fatigue Risk Level: <span id="fatigue"></span></p>
+    </div>
 
-      <div class="mb-3">
-        <label for="investmentYears" class="form-label">Years to Invest (Max 15)</label>
-        <input type="number" id="investmentYears" class="form-control" min="0" max="15" value="15" required />
-      </div>
+    <div class="share" id="shareButtons" style="display:none;">
+      <a class="x" href="#" target="_blank" rel="noopener" id="shareX">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/X_logo_2023.svg" alt="X Logo" /> Share on X
+      </a>
+      <a class="whatsapp" href="#" target="_blank" rel="noopener" id="shareWhatsApp">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Logo" /> Share on WhatsApp
+      </a>
+    </div>
 
-      <div class="mb-3">
-        <label for="interestRate" class="form-label">Interest Rate (%)</label>
-        <input type="number" id="interestRate" class="form-control" step="0.01" value="8.2" required />
-      </div>
+    <div class="faq">
+      <h2>FAQ</h2>
+      <details>
+        <summary>What is sleep debt?</summary>
+        <p>Sleep debt is the difference between the amount of sleep your body needs and the actual sleep you get.</p>
+      </details>
+      <details>
+        <summary>Can I catch up on sleep during weekends?</summary>
+        <p>Yes, catching up helps reduce sleep debt, but regular consistent sleep is healthier.</p>
+      </details>
+      <details>
+        <summary>What happens if I ignore sleep debt?</summary>
+        <p>Ignoring sleep debt can cause poor concentration, mood issues, and long-term health risks.</p>
+      </details>
+    </div>
 
-      <button type="submit" class="btn btn-primary w-100">Calculate</button>
-    </form>
+    <p class="credit">Built with ☕ by Lenny Rajan</p>
 
-    <section id="results" class="mt-4" style="display:none;">
-      <h2 class="h5">Results</h2>
-      <p id="summary" aria-live="polite"></p>
-      <ul id="detailedResults" class="mb-3"></ul>
-      <canvas id="growthChart" height="140"></canvas>
-
-      <div id="shareSection" class="mt-4">
-        <h2 class="h6">Share your results</h2>
-        <a id="whatsappShare" class="btn btn-success me-2" target="_blank" rel="noopener" aria-label="Share on WhatsApp">📱 WhatsApp</a>
-        <a id="xShare" class="btn btn-dark me-2" target="_blank" rel="noopener" aria-label="Share on X">𝕏 Share</a>
-        <button id="downloadBtn" class="btn btn-outline-primary mt-2" aria-label="Download results as image">⬇️ Download Result</button>
-      </div>
-    </section>
-
-    <section class="mt-5" aria-label="Frequently Asked Questions">
-      <h2 class="h5 mb-3">FAQs</h2>
-
-      <div class="faq-item">
-        <button aria-controls="faq1" type="button">What is Sukanya Samriddhi Yojana (SSY)?</button>
-        <div id="faq1" class="faq-answer">
-          Sukanya Samriddhi Yojana (SSY) is a government-backed savings scheme launched to encourage parents to save for their girl child's future education and marriage. It offers attractive interest rates along with tax benefits under Section 80C.
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button aria-controls="faq2" type="button">Who is eligible to open an SSY account?</button>
-        <div id="faq2" class="faq-answer">
-          A parent or guardian can open an SSY account in the name of their girl child below 10 years of age. Only one account is allowed per girl child.
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button aria-controls="faq3" type="button">What is the tenure and maturity period of SSY?</button>
-        <div id="faq3" class="faq-answer">
-          The account matures 21 years from the date of opening or upon the marriage of the girl after she turns 18 years, whichever is earlier.
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button aria-controls="faq4" type="button">What are the deposit limits?</button>
-        <div id="faq4" class="faq-answer">
-          Minimum deposit is ₹250 per year. Maximum deposits allowed are ₹1,50,000 per year (or ₹12,500 per month if depositing monthly). Deposits can be made in lump sum or installments.
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button aria-controls="faq5" type="button">What is the interest rate and how is it calculated?</button>
-        <div id="faq5" class="faq-answer">
-          The interest rate is set by the government quarterly and is compounded annually. Interest is calculated on the minimum balance between the 5th and last day of each month.
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button aria-controls="faq6" type="button">Can the account be closed early?</button>
-        <div id="faq6" class="faq-answer">
-          Partial or full withdrawal before maturity is allowed only under specific circumstances such as higher education or marriage of the girl after she reaches 18 years of age.
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button aria-controls="faq7" type="button">Are the deposits and interest tax-free?</button>
-        <div id="faq7" class="faq-answer">
-          Yes. Deposits qualify for deduction under Section 80C of the Income Tax Act, and the interest earned is tax-free.
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    Made with ☕ by Lenny Rajan
-    <br />
-    <span id="fakeVisitorCount" style="display:block; margin-top:4px; font-weight:600;"></span>
-  </footer>
-
-  <!-- Bootstrap JS bundle -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <p id="visitCount">👁️ Visitors: <span id="fakeVisitorCount">3207</span></p>
+  </div>
 
   <script>
-    const form = document.getElementById('ssyForm');
-    const summary = document.getElementById('summary');
-    const detailedResults = document.getElementById('detailedResults');
-    const chartCanvas = document.getElementById('growthChart');
-    const shareSection = document.getElementById('shareSection');
-    const faqButtons = document.querySelectorAll('.faq-item button');
-    const themeToggle = document.getElementById('themeToggle');
-    const investmentTooltip = document.querySelector('label[for="investmentAmount"] .tooltip-icon');
-    const downloadBtn = document.getElementById('downloadBtn');
-    let chart;
+    // Generate inputs for days Mon-Sun
+    const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const daysDiv = document.getElementById('days');
+    daysOfWeek.forEach(day => {
+      const label = document.createElement('label');
+      label.innerText = `${day} Sleep (hours)`;
+      const input = document.createElement('input');
+      input.type = 'number';
+      input.min = '0';
+      input.max = '24';
+      input.value = '7';
+      input.id = day.toLowerCase();
+      daysDiv.appendChild(label);
+      daysDiv.appendChild(input);
+    });
+
+    // Calculate sleep debt
+    document.getElementById('calcBtn').addEventListener('click', () => {
+      const ideal = parseFloat(document.getElementById('ideal').value);
+      let totalDebt = 0;
+      daysOfWeek.forEach(day => {
+        const hours = parseFloat(document.getElementById(day.toLowerCase()).value);
+        totalDebt += Math.max(0, ideal - hours);
+      });
+      const recovery = totalDebt * 1.25;
+      const fatigue = totalDebt <= 5 ? 'Low' : totalDebt <= 10 ? 'Moderate' : 'High';
+
+      document.getElementById('debt').innerText = totalDebt.toFixed(1);
+      document.getElementById('recovery').innerText = recovery.toFixed(1);
+      document.getElementById('fatigue').innerText = fatigue;
+      document.getElementById('results').style.display = 'block';
+      document.getElementById('shareButtons').style.display = 'block';
+
+      // Fix URL encoding for share links
+      const baseUrl = 'https://sleepdebtrecoverycalculator.netlify.app';
+      const encodedUrl = encodeURIComponent(baseUrl);
+      const tweetText = encodeURIComponent(`Just calculated my sleep debt: ${totalDebt.toFixed(1)} hours with SleepCalc! Try it here: `) + encodedUrl;
+      const whatsappText = encodeURIComponent(`Just calculated my sleep debt: ${totalDebt.toFixed(1)} hours with SleepCalc! Try it here: `) + encodedUrl;
+
+      document.getElementById('shareX').href = `https://x.com/intent/tweet?text=${tweetText}`;
+      document.getElementById('shareWhatsApp').href = `https://api.whatsapp.com/send?text=${whatsappText}`;
+    });
+
+    // Dark mode toggle logic
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggleBtn = document.getElementById('darkModeToggle');
+      const body = document.getElementById('body');
+
+      let darkPref = localStorage.getItem('darkMode');
+      if (!darkPref || darkPref === 'enabled') {
+        body.classList.add('dark');
+        toggleBtn.textContent = '☀️';
+        localStorage.setItem('darkMode', 'enabled');
+      } else {
+        body.classList.remove('dark');
+        toggleBtn.textContent = '🌙';
+      }
+
+      toggleBtn.addEventListener('click', () => {
+        body.classList.toggle('dark');
+        const enabled = body.classList.contains('dark');
+        toggleBtn.textContent = enabled ? '☀️' : '🌙';
+        localStorage.setItem('darkMode', enabled ? 'enabled' : 'disabled');
+      });
+    });
 
     // Fake visitor counter
-    const visitorKey = 'ssy_fake_visitor_count';
-    let count = parseInt(localStorage.getItem(visitorKey)) || 3073;
+    const visitorKey = 'sleepcalc_fake_visitor_count';
+    let count = parseInt(localStorage.getItem(visitorKey)) || 3207;
     const randomIncrement = Math.floor(Math.random() * 3) + 1;
     count += randomIncrement;
-    document.getElementById('fakeVisitorCount').innerText = 'Visitors: ' + count.toLocaleString();
+    document.getElementById('fakeVisitorCount').innerText = count.toLocaleString();
     localStorage.setItem(visitorKey, count);
-
-    // Update tooltip on investment type change
-    function updateTooltip() {
-      const type = document.querySelector('input[name="investmentType"]:checked').value;
-      if (type === 'monthly') {
-        investmentTooltip.title = "Monthly max ₹12,500";
-      } else {
-        investmentTooltip.title = "Yearly max ₹1,50,000";
-      }
-    }
-    document.querySelectorAll('input[name="investmentType"]').forEach(radio => {
-      radio.addEventListener('change', updateTooltip);
-    });
-    updateTooltip();
-
-    // Theme toggle logic
-    themeToggle.addEventListener('click', () => {
-      document.body.classList.toggle('light-mode');
-      document.body.classList.toggle('dark-mode');
-      themeToggle.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
-    });
-
-    // FAQ toggle
-    faqButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const answer = document.getElementById(btn.getAttribute('aria-controls'));
-        answer.classList.toggle('show');
-      });
-    });
-
-    // Form submission
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      const currentBalance = parseFloat(document.getElementById('currentBalance').value) || 0;
-      const investmentAmount = parseFloat(document.getElementById('investmentAmount').value) || 0;
-      const investmentType = document.querySelector('input[name="investmentType"]:checked').value;
-      const startYear = parseInt(document.getElementById('startYear').value);
-      const investmentYears = parseInt(document.getElementById('investmentYears').value);
-      const interestRate = parseFloat(document.getElementById('interestRate').value) || 0;
-
-      const annualInvestment = investmentType === 'monthly' ? investmentAmount * 12 : investmentAmount;
-      const maturityYear = startYear + 21;
-      const yearsLeft = maturityYear - new Date().getFullYear();
-
-      let total = currentBalance;
-      let totalInvested = currentBalance;
-      let totalInterest = 0;
-
-      const yearlyBalances = [];
-      const yearlyInterests = [];
-
-      for (let i = 0; i < 21; i++) {
-        if (i < investmentYears) {
-          total += annualInvestment;
-          totalInvested += annualInvestment;
-        }
-        const interest = total * (interestRate / 100);
-        total += interest;
-        totalInterest += interest;
-
-        yearlyBalances.push(total.toFixed(2));
-        yearlyInterests.push(totalInterest.toFixed(2));
-      }
-
-      summary.textContent = `Estimated maturity amount by ${maturityYear} is ₹${Math.round(total).toLocaleString()}.`;
-
-      detailedResults.innerHTML = `
-        <li><strong>Years Left to Maturity:</strong> ${yearsLeft > 0 ? yearsLeft : 0}</li>
-        <li><strong>Maturity Year:</strong> ${maturityYear}</li>
-        <li><strong>Total Invested Amount:</strong> ₹${Math.round(totalInvested).toLocaleString()}</li>
-        <li><strong>Total Interest Earned:</strong> ₹${Math.round(totalInterest).toLocaleString()}</li>
-        <li><strong>Total Maturity Amount:</strong> ₹${Math.round(total).toLocaleString()}</li>
-      `;
-
-      if (chart) chart.destroy();
-
-      chart = new Chart(chartCanvas, {
-        type: 'line',
-        data: {
-          labels: Array.from({ length: 21 }, (_, i) => startYear + i),
-          datasets: [
-            {
-              label: 'Total Balance (₹)',
-              data: yearlyBalances,
-              borderColor: '#ff6600',
-              backgroundColor: 'rgba(255, 102, 0, 0.2)',
-              fill: true,
-              tension: 0.3,
-            },
-            {
-              label: 'Interest Earned (₹)',
-              data: yearlyInterests,
-              borderColor: '#007bff',
-              backgroundColor: 'rgba(0, 123, 255, 0.2)',
-              fill: true,
-              tension: 0.3,
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          plugins: { legend: { position: 'top' } },
-          scales: {
-            y: {
-              ticks: {
-                callback: value => '₹' + Number(value).toLocaleString()
-              },
-              beginAtZero: true
-            }
-          }
-        }
-      });
-
-      shareSection.style.display = 'block';
-
-      const shareText = `SSY Maturity by ${maturityYear}: ₹${Math.round(total).toLocaleString()}`;
-      const shareURL = encodeURIComponent(window.location.href);
-
-      document.getElementById('whatsappShare').href = `https://wa.me/?text=${encodeURIComponent(shareText)}%20${shareURL}`;
-      document.getElementById('xShare').href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${shareURL}`;
-
-      document.getElementById('results').style.display = 'block';
-    });
-
-    // Download results image
-    downloadBtn.addEventListener('click', () => {
-      const shareBtns = shareSection.querySelectorAll('a, button');
-      shareBtns.forEach(btn => btn.style.display = 'none');
-
-      import('https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js').then(({ default: html2canvas }) => {
-        html2canvas(document.getElementById('results')).then(canvas => {
-          shareBtns.forEach(btn => btn.style.display = '');
-          const link = document.createElement('a');
-          link.download = 'ssy_maturity_results.png';
-          link.href = canvas.toDataURL('image/png');
-          link.click();
-        });
-      }).catch(() => {
-        alert('Download failed');
-        shareBtns.forEach(btn => btn.style.display = '');
-      });
-    });
   </script>
 </body>
 </html>
